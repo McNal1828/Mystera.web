@@ -1,27 +1,59 @@
 const express = require('express');
+const doSqls = require('../middleware/mysterya/doSqls').doSqls;
 const router = express.Router();
+const ejs = require('ejs');
 
-const template = require('../view/mysteryaTemplate');
+const connect = require('../middleware/mysterya/dbconnection').connect;
 
 router.get('/', (req, res) => {
-    const html = template.html(template.defaultHeader(23,''),"미스야라우터","");
-    res.send(html);
+    let main='';
+    ejs.renderFile('view/mysterya/index.ejs', (err,str)=>{
+        main = str;
+    });
+    res.render('mysterya/mainLayout.ejs',{headerMyNumber:28, main:main});
 });
 
-router.get('/player/list',(req,res)=>{
-    res.send('리스트');
+router.get('/player/list', async (req,res)=>{
+    // const sqls =[];
+    // sqls.push(`select * from player`);
+    const sql=`select * from player`;
+    const results = await connect(sql);
+    let main='';
+    ejs.renderFile('view/mysterya/playerList.ejs',{PL:results[0]}, (err,str)=>{
+        main = str;
+    });
+    res.render('mysterya/mainLayout.ejs',{headerMyNumber:28, main:main});
 });
 
-router.get('player/:playerNumber',(req,res)=>{
-    res.send('28');
+router.get('/player/:playerNumber',async (req,res)=>{
+    const playerNumber = req.params.playerNumber;
+    const sqls =[];
+    sqls.push(`select * from ra_yearlist`);
+    sqls.push(`select * from numposition`);
+    sqls.push(`select * from player`);
+
+    const results = await connect(sqls);
+    console.log("완료");
+    // res.render('../view/mysterya/playerDetail.ejs');
+    res.render('mysterya/playerDetail.ejs');
 });
 
 router.get('/ranking/league/:leagudIndex',(req,res)=>{
 
 });
 
-router.get('/ranking/year/:year',(req,res)=>{
-
+router.get('/ranking/year/:year',async (req,res)=>{
+    let sqls=[];
+    let values=[];
+    sqls.push(`select * from ra_yearlist`);
+    values.push([]);
+    sqls.push(`select * from numposition`);
+    values.push([]);
+    sqls.push(`select * from player`);
+    values.push([]);
+    const results = await doSqls(sqls,values);
+    console.log(results);
+    res.end('ss');
 });
 
 module.exports = router;

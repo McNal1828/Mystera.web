@@ -7,6 +7,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const helmet = require('helmet');
+const csp = require('helmet-csp');
 
 const MysteryaRouter = require('./router/mystera');
 
@@ -16,13 +17,27 @@ const port = 3001;
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(compression());
 app.use(helmet());
+app.use(
+    csp({
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'",],
+        scriptSrc: ["'self'", "cdn.jsdelivr.net"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
+      reportOnly: false,
+    })
+  );
 app.use(express.static('static'));
 
+app.set('view engine','ejs');
+app.set('views',__dirname+'/view');
 
 app.use('/Mysterya', MysteryaRouter);
 
-app.get('/',(req,res)=>{
-    res.send('기본페이지');
+app.get('/', (req,res)=>{
+    res.send(`기본페이지`);
 });
 
 app.use((req,res,next)=>{
