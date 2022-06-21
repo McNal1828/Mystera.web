@@ -2,7 +2,7 @@ const connection = require('./dbconnection');
 
 async function doSql(sql,values=[]){
     return new Promise((resolve, reject)=>{
-        const results =  connection.connect(sql,values);
+        const results = connection.connect(sql,values);
         resolve(results);
     });
 }
@@ -17,4 +17,5 @@ async function doSqls(sqls, values = []) {
     });
     return results_;
 }
+
 exports.doSqls = doSqls;

@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const helmet = require('helmet');
 const csp = require('helmet-csp');
+const cookieParser = require('cookie-parser');
 
 const MysteryaRouter = require('./router/mystera');
 
@@ -16,6 +17,7 @@ const port = 3001;
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(compression());
+app.use(cookieParser());
 app.use(helmet());
 app.use(
     csp({

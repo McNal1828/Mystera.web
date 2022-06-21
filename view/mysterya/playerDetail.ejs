@@ -1,11 +1,11 @@
 <main class="container-xxl">
 	<div class="mb-5 pb-4">
-		<img src="/Mysterya/image/profile/${playerDetail.numberr}.jpg" class="rounded float-md-end img-thumbnail img-fluid" /> <img src="/Mysterya/image/support/${playerDetail.support}.${playerDetail.numberr==29?'gif':'png'}" class="rounded float-md-end" height="230" />
-		<p class="fs-3 pb-2 pt-4">${empty playerDetail.name?'저장된 번호가 없거나 잘못된 등번호입니다':playerDetail.name}</p>
+		<img src="/Mysterya/image/profile/<%=playerDetail.number%>.jpg" class="rounded float-md-end img-thumbnail img-fluid" /> <img src="/Mysterya/image/support/<%if(playerDetail.number != 29){%><%= playerDetail.support%>.png<%}else{%><%=playerDetail.support%>.gif<%}%>" class="rounded float-md-end" height="230" />
+		<p class="fs-3 pb-2 pt-4"><%=playerDetail.name%></p>
 		<ul class="fs-5">
-			<li>${playerDetail.birth_year}- ${playerDetail.birth_month} - ${playerDetail.birth_day}</li>
-			<li>${playerDetail.element_school}- ${playerDetail.middle_school} - ${playerDetail.high_school} - ${playerDetail.university}</li>
-			<li>${playerDetail.handed}</li>
+			<li><%=playerDetail.birth_year%> - <%=playerDetail.birth_month%> - <%=playerDetail.birth_day%></li>
+			<li><%=playerDetail.element_school%> - <%=playerDetail.middle_school%> - <%=playerDetail.high_school%> - <%=playerDetail.university%></li>
+			<li><%=playerDetail.handed%></li>
 		</ul>
 	</div>
 	<h4 class="pb-4 mb-4 mt-4 fw-bold fst-italic border-bottom">통산 기록</h4>
@@ -30,32 +30,26 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="ls" items="${listsummary}">
 					<tr>
-						<td>${ls.g}</td>
-						<td>${ls.pa}</td>
-						<td>${ls.ab}</td>
-						<td>
-							<fmt:formatNumber value="${ls.avg}" pattern=".000" />
-						</td>
-						<td>${ls.h}</td>
-						<td>${ls._2b}</td>
-						<td>${ls._3b}</td>
-						<td>${ls.hr}</td>
-						<td>${ls.so}</td>
-						<td>${ls.bb}</td>
-						<td>${ls.hbp}</td>
-						<td>
-							<fmt:formatNumber value="${ls.slg}" pattern=".000" />
-						</td>
-						<td>
-							<fmt:formatNumber value="${ls.obp}" pattern=".000" />
-						</td>
-						<td>
-							<fmt:formatNumber value="${ls.ops}" pattern=".000" />
-						</td>
+						<td><%=ls['경기수']%></td>
+						<td><%=ls['타석']%></td>
+						<td><%=ls['타수']%></td>
+						<% var temp = parseFloat(ls['타율']).toFixed(3) %>
+						<td><%= temp%></td>
+						<td><%=ls['안타']%></td>
+						<td><%=ls['2루타']%></td>
+						<td><%=ls['3루타']%></td>
+						<td><%=ls['홈런']%></td>
+						<td><%=ls['삼진']%></td>
+						<td><%=ls['4구']%></td>
+						<td><%=ls['사구']%></td>
+						<% var temp = parseFloat(ls['장타율']).toFixed(3) %>
+						<td><%=temp%></td>
+						<% var temp = parseFloat(ls['출루율']).toFixed(3) %>
+						<td><%=temp%></td>
+						<% var temp = parseFloat(ls['OPS']).toFixed(3) %>
+						<td><%=temp%></td>
 					</tr>
-				</c:forEach>
 			</tbody>
 		</table>
 	</div>
@@ -83,34 +77,30 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="ll" items="${listLeague}">
+				<% ll.forEach((result)=>{%>
 					<tr>
-						<th>${ll.league_name}</th>
-						<td>${ll.division}</td>
-						<td>${ll.g}</td>
-						<td>${ll.pa}</td>
-						<td>${ll.ab}</td>
-						<td>
-							<fmt:formatNumber value="${ll.avg}" pattern=".000" />
-						</td>
-						<td>${ll.h}</td>
-						<td>${ll._2b}</td>
-						<td>${ll._3b}</td>
-						<td>${ll.hr}</td>
-						<td>${ll.so}</td>
-						<td>${ll.bb}</td>
-						<td>${ll.hbp}</td>
-						<td>
-							<fmt:formatNumber value="${ll.slg}" pattern=".000" />
-						</td>
-						<td>
-							<fmt:formatNumber value="${ll.obp}" pattern=".000" />
-						</td>
-						<td>
-							<fmt:formatNumber value="${ll.ops}" pattern=".000" />
-						</td>
+						<th><%=result['리그']%></th>
+						<td><%=result['분류']%></td>
+						<td><%=result['경기수']%></td>
+						<td><%=result['타석']%></td>
+						<td><%=result['타수']%></td>
+						<% var temp = parseFloat(result['타율']).toFixed(3) %>
+						<td><%=temp%></td>
+						<td><%=result['안타']%></td>
+						<td><%=result['2루타']%></td>
+						<td><%=result['3루타']%></td>
+						<td><%=result['홈런']%></td>
+						<td><%=result['삼진']%></td>
+						<td><%=result['4구']%></td>
+						<td><%=result['사구']%></td>
+						<% var temp = parseFloat(result['장타율']).toFixed(3) %>
+						<td><%=temp%></td>
+						<% var temp = parseFloat(result['출루율']).toFixed(3) %>
+						<td><%=temp%></td>
+						<% var temp = parseFloat(result['OPS']).toFixed(3) %>
+						<td><%=temp%></td>
 					</tr>
-				</c:forEach>
+				<%})%>
 			</tbody>
 		</table>
 	</div>
@@ -137,33 +127,29 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="ly" items="${listYear}">
+				<% ly.forEach((result)=>{ %>
 					<tr>
-						<th>${ly.year}</th>
-						<td>${ly.g}</td>
-						<td>${ly.pa}</td>
-						<td>${ly.ab}</td>
-						<td>
-							<fmt:formatNumber value="${ly.avg}" pattern=".000" />
-						</td>
-						<td>${ly.h}</td>
-						<td>${ly._2b}</td>
-						<td>${ly._3b}</td>
-						<td>${ly.hr}</td>
-						<td>${ly.so}</td>
-						<td>${ly.bb}</td>
-						<td>${ly.hbp}</td>
-						<td>
-							<fmt:formatNumber value="${ly.slg}" pattern=".000" />
-						</td>
-						<td>
-							<fmt:formatNumber value="${ly.obp}" pattern=".000" />
-						</td>
-						<td>
-							<fmt:formatNumber value="${ly.ops}" pattern=".000" />
-						</td>
+						<th><%=result['년도']%></th>
+						<td><%=result['경기수']%></td>
+						<td><%=result['타석']%></td>
+						<td><%=result['타수']%></td>
+						<% var temp = parseFloat(result['타율']).toFixed(3) %>
+						<td><%=temp%></td>
+						<td><%=result['안타']%></td>
+						<td><%=result['2루타']%></td>
+						<td><%=result['3루타']%></td>
+						<td><%=result['홈런']%></td>
+						<td><%=result['삼진']%></td>
+						<td><%=result['4구']%></td>
+						<td><%=result['사구']%></td>
+						<% var temp = parseFloat(result['장타율']).toFixed(3) %>
+						<td><%=temp%></td>
+						<% var temp = parseFloat(result['출루율']).toFixed(3) %>
+						<td><%=temp%></td>
+						<% var temp = parseFloat(result['OPS']).toFixed(3) %>
+						<td><%=temp%></td>
 					</tr>
-				</c:forEach>
+				<%})%>
 			</tbody>
 		</table>
 	</div>
@@ -184,48 +170,272 @@
 		</nav>
 		<div class="tab-content" id="nav-tabContent">
 			<div class="tab-pane fade show active" id="nav-padirection" role="tabpanel">
-
-				<div class="border border-2 mb-5" style="background-image: url('/Mysterya/image/field.png'); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover;">
+				<div class="border border-2 mb-5" style="background-image : url('/Mysterya/image/field.png'); height: 100%; background-position: center; background-repeat: no-repeat; background-size: cover;">
+					<%var dl=[]%>
+					<%for(var tt = 1; tt < 10; tt++){%>
+						<%var dl_=0%>
+						<%lpd.forEach((result)=>{%>	
+							<%if(result['타구방향']==tt){dl_=parseFloat(result['비율']).toFixed(1)}%>
+						<%})%>
+						<%dl.push(dl_)%>	
+					<%}%>
 					<div class="row justify-content-center">
 						<div class="col-3">
-							<div id=chart8></div>
+							<div style="
+								position: relative;
+								margin-left: auto;
+								margin-right: auto;
+								width: 160px;
+								height: 160px;
+								border-radius: 50%;
+								<%var dcolor =''%>
+								<%if(dl[7]>30){dcolor='#ff4800'}else{dcolor='#b813ff'}%>
+								background: conic-gradient(<%=dcolor%> 0% <%=dl[7]*2%>%, #00000040 <%=dl[7]%>% 100%);
+							  ">
+							  <span class="center" style="
+							  position:absolute;
+							  top :25%;
+							  left : 25%;
+							  width: 50%;
+							  height: 50%;
+							  border-radius: 50%;
+							  background-color: #ffffff;
+							  text-align: center;
+							  font-size: larger;
+							  color:black;
+							  line-height: 140%;
+							  padding-top: 7%;
+							  ">중견수<br><%=dl[7]%>%</span>
+							</div>
 						</div>
 					</div>
 					<div class="row justify-content-between">
 						<div class="col-3">
-							<div id=chart7></div>
+							<div style="
+								position: relative;
+								margin-left: auto;
+								margin-right: auto;
+								width: 160px;
+								height: 160px;
+								border-radius: 50%;
+								<%if(dl[6]>30){dcolor='#ff7919'}else{dcolor='#b813ff'}%>
+								background: conic-gradient(<%=dcolor%> 0% <%=dl[6]*2%>%, #00000040 <%=dl[6]%>% 100%);
+							  ">
+							  <span class="center" style="
+							  position:absolute;
+							  top :25%;
+							  left : 25%;
+							  width: 50%;
+							  height: 50%;
+							  border-radius: 50%;
+							  background-color: #ffffff;
+							  text-align: center;
+							  font-size: larger;
+							  color:black;
+							  line-height: 140%;
+							  padding-top: 7%;
+							  ">좌익수<br><%=dl[6]%>%</span>
+							</div>
 						</div>
 						<div class="col-3">
-							<div id=chart9></div>
+							<div style="
+								position: relative;
+								margin-left: auto;
+								margin-right: auto;
+								width: 160px;
+								height: 160px;
+								border-radius: 50%;
+								<%if(dl[8]>30){dcolor='#ff4800'}else{dcolor='#b813ff'}%>
+								background: conic-gradient(<%=dcolor%> 0% <%=dl[8]*2%>%, #00000040 <%=dl[8]%>% 100%);
+							  ">
+							  <span class="center" style="
+							  position:absolute;
+							  top :25%;
+							  left : 25%;
+							  width: 50%;
+							  height: 50%;
+							  border-radius: 50%;
+							  background-color: #ffffff;
+							  text-align: center;
+							  font-size: larger;
+							  color:black;
+							  line-height: 140%;
+							  padding-top: 7%;
+							  ">우익수<br><%=dl[8]%>%</span>
+							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
 						<div class="col-3">
-							<div id=chart6></div>
+							<div style="
+								position: relative;
+								margin-left: auto;
+								margin-right: auto;
+								width: 160px;
+								height: 160px;
+								border-radius: 50%;
+								<%if(dl[5]>30){dcolor='#ff4800'}else{dcolor='#b813ff'}%>
+								background: conic-gradient(<%=dcolor%> 0% <%=dl[5]*2%>%, #00000040 <%=dl[5]%>% 100%);
+							  ">
+							  <span class="center" style="
+							  position:absolute;
+							  top :25%;
+							  left : 25%;
+							  width: 50%;
+							  height: 50%;
+							  border-radius: 50%;
+							  background-color: #ffffff;
+							  text-align: center;
+							  font-size: larger;
+							  color:black;
+							  line-height: 140%;
+							  padding-top: 7%;
+							  ">유격수<br><%=dl[5]%></span>
+							</div>
 						</div>
 						<div class="col-3">
-							<div id=chart4></div>
+							<div style="
+								position: relative;
+								margin-left: auto;
+								margin-right: auto;
+								width: 160px;
+								height: 160px;
+								border-radius: 50%;
+								<%if(dl[3]>30){dcolor='#ff4800'}else{dcolor='#b813ff'}%>
+								background: conic-gradient(<%=dcolor%> 0% <%=dl[3]*2%>%, #00000040 <%=dl[3]%>% 100%);
+							  ">
+							  <span class="center" style="
+							  position:absolute;
+							  top :25%;
+							  left : 25%;
+							  width: 50%;
+							  height: 50%;
+							  border-radius: 50%;
+							  background-color: #ffffff;
+							  text-align: center;
+							  font-size: larger;
+							  color:black;
+							  line-height: 140%;
+							  padding-top: 7%;
+							  ">2루수<br><%=dl[3]%></span>
+							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
 						<div class="col-3">
-							<div id=chart5></div>
-						</div>
-						<div class="col-3" style="margin-right: -3rem; margin-left: -3rem">
-							<div id=chart1></div>
+							<div style="
+								position: relative;
+								margin-left: auto;
+								margin-right: auto;
+								width: 160px;
+								height: 160px;
+								border-radius: 50%;
+								<%if(dl[4]>30){dcolor='#ff4800'}else{dcolor='#b813ff'}%>
+								background: conic-gradient(<%=dcolor%> 0% <%=dl[4]*2%>%, #00000040 <%=dl[4]%>% 100%);
+							  ">
+							  <span class="center" style="
+							  position:absolute;
+							  top :25%;
+							  left : 25%;
+							  width: 50%;
+							  height: 50%;
+							  border-radius: 50%;
+							  background-color: #ffffff;
+							  text-align: center;
+							  font-size: larger;
+							  color:black;
+							  line-height: 140%;
+							  padding-top: 7%;
+							  ">3루수<br><%=dl[4]%></span>
+							</div>
 						</div>
 						<div class="col-3">
-							<div id=chart3></div>
+							<div style="
+								position: relative;
+								margin-left: auto;
+								margin-right: auto;
+								width: 160px;
+								height: 160px;
+								border-radius: 50%;
+								<%if(dl[0]>30){dcolor='#ff4800'}else{dcolor='#b813ff'}%>
+								background: conic-gradient(<%=dcolor%> 0% <%=dl[0]*2%>%, #00000040 <%=dl[0]%>% 100%);
+							  ">
+							  <span class="center" style="
+							  position:absolute;
+							  top :25%;
+							  left : 25%;
+							  width: 50%;
+							  height: 50%;
+							  border-radius: 50%;
+							  background-color: #ffffff;
+							  text-align: center;
+							  font-size: larger;
+							  color:black;
+							  line-height: 140%;
+							  padding-top: 7%;
+							  ">투수<br><%=dl[0]%></span>
+							</div>
+						</div>
+						<div class="col-3">
+							<div style="
+								position: relative;
+								margin-left: auto;
+								margin-right: auto;
+								width: 160px;
+								height: 160px;
+								border-radius: 50%;
+								<%if(dl[2]>30){dcolor='#ff4800'}else{dcolor='#b813ff'}%>
+								background: conic-gradient(<%=dcolor%> 0% <%=dl[2]*2%>%, #00000040 <%=dl[2]%>% 100%);
+							  ">
+							  <span class="center" style="
+							  position:absolute;
+							  top :25%;
+							  left : 25%;
+							  width: 50%;
+							  height: 50%;
+							  border-radius: 50%;
+							  background-color: #ffffff;
+							  text-align: center;
+							  font-size: larger;
+							  color:black;
+							  line-height: 140%;
+							  padding-top: 7%;
+							  ">1루수<br><%=dl[2]%></span>
+							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
 						<div class="col-3">
-							<div id=chart2></div>
+							<div style="
+								position: relative;
+								margin-left: auto;
+								margin-right: auto;
+								width: 160px;
+								height: 160px;
+								border-radius: 50%;
+								<%if(dl[1]>30){dcolor='#ff4800'}else{dcolor='#b813ff'}%>
+								background: conic-gradient(<%=dcolor%> 0% <%=dl[1]*2%>%, #00000040 <%=dl[1]%>% 100%);
+							  ">
+							  <span class="center" style="
+							  position:absolute;
+							  top :25%;
+							  left : 25%;
+							  width: 50%;
+							  height: 50%;
+							  border-radius: 50%;
+							  background-color: #ffffff;
+							  text-align: center;
+							  font-size: larger;
+							  color:black;
+							  line-height: 140%;
+							  padding-top: 7%;
+							  ">포수<br><%=dl[1]%></span>
+							</div>
 						</div>
 					</div>
 				</div>
-
 			</div>
+
 			<div class="tab-pane fade" id="nav-paturn" role="tabpanel">
 				<table class="table table-bordered table-striped">
 					<thead>
@@ -242,21 +452,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="lpt" items="${listPaTurn}">
-							<tr>
-								<td>${lpt.count1}타석</td>
-								<td>${lpt.count2}</td>
-								<td>${lpt.count3}</td>
-								<td>
-									<fmt:formatNumber value="${lpt.ratio1}" pattern=".000" />
-								</td>
-								<td>${lpt.count4}</td>
-								<td>${lpt.count5}</td>
-								<td>${lpt.count6}</td>
-								<td>${lpt.count7}</td>
-								<td>${lpt.count8}</td>
-							</tr>
-						</c:forEach>
+						<% lpt.forEach((result)=>{%>
+						<tr>
+							<td><%=result['타석 횟수']%></td>
+							<td><%=result['타석']%></td>
+							<td><%=result['타수']%></td>
+							<% var temp = parseFloat(result['타율']).toFixed(3) %>
+							<td><%=temp%></td>
+							<td><%=result['안타']%></td>
+							<td><%=result['사사구']%></td>
+							<td><%=result['삼진']%></td>
+							<td><%=result['땅볼 및 뜬공']%></td>
+							<td><%=result['상대방실책']%></td>
+						</tr>
+						<%})%>
 					</tbody>
 				</table>
 			</div>
@@ -270,15 +479,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="lpbt" items="${listPaBalltotal}">
+						<% lpbt.forEach((result)=>{%>
 							<tr>
-								<td>${lpbt.count1}구</td>
-								<td>${lpbt.count2}</td>
-								<td>
-									<fmt:formatNumber value="${lpbt.ratio1}" pattern=".000" />
-								</td>
+								<td><%=result['공 갯수']%></td>
+								<td><%=result['타석']%></td>
+								<% var temp = parseFloat(result['타율']).toFixed(3) %>
+								<td><%=temp%></td>
 							</tr>
-						</c:forEach>
+						<%})%>
 					</tbody>
 				</table>
 			</div>
@@ -297,18 +505,18 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="lpo" items="${listPaOut}">
-							<tr>
-								<td>${lpo.count1}</td>
-								<td>${lpo.count2}</td>
-								<td>${lpo.count3}</td>
-								<td>${lpo.count4}</td>
-								<td>${lpo.count5}</td>
-								<td>${lpo.count6}</td>
-								<td>${lpo.count7}</td>
-								<td>${lpo.count8}</td>
-							</tr>
-						</c:forEach>
+							<% lpo.forEach((result)=>{%>
+								<tr>
+									<td><%=result['타수']%></td>
+									<td><%=result['총 아웃']%></td>
+									<td><%=result['루킹삼진']%></td>
+									<td><%=result['스윙삼진']%></td>
+									<td><%=result['땅볼']%></td>
+									<td><%=result['뜬공']%></td>
+									<td><%=result['직선타']%></td>
+									<td><%=result['실책']%></td>
+								</tr>
+							<%})%>	
 					</tbody>
 				</table>
 				<div id=ochart class="col-8 ms-auto me-auto"></div>
@@ -324,14 +532,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="lptb" items="${listPaTobase}">
+						<% lptb.forEach((result)=>{%>
 							<tr>
-								<td>${lptb.count1}</td>
-								<td>${lptb.count2}</td>
-								<td>${lptb.count3}</td>
-								<td>${lptb.count4}</td>
+								<td><%=result['총 출루']%></td>
+								<td><%=result['안타']%></td>
+								<td><%=result['4구']%></td>
+								<td><%=result['사구']%></td>
 							</tr>
-						</c:forEach>
+						<%})%>
 					</tbody>
 				</table>
 				<div id=obchart class="col-8 ms-auto me-auto"></div>
@@ -346,19 +554,17 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="lpetc" items="${listPaETC}">
+						<% lpetc.forEach((result)=>{%>
 							<tr>
-								<td>
-									<fmt:formatNumber value="${lpetc.ratio1}" pattern=".000" />
-								</td>
-								<td>
-									<fmt:formatNumber value="${lpetc.ratio2}" pattern=".000" />
-								</td>
-								<td>
-									<fmt:formatNumber value="${lpetc.ratio3}" pattern=".000" />
-								</td>
+								<% var temp = parseFloat(result['K% : 타석당 삼진 비율']).toFixed(3) %>
+								<td><%=temp%></td>
+								<% var temp = parseFloat(result['BB% : 타석당 볼넷 비율']).toFixed(3) %>
+								<td><%=temp%></td>
+								<% var temp = parseFloat(result['K-BB% : 삼진-볼넷 비율 격차']).toFixed(3) %>
+								<td><%=temp%></td>
 							</tr>
-						</c:forEach>
+						<%})%>
+
 					</tbody>
 				</table>
 			</div>
@@ -379,21 +585,21 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="lpbc" items="${listPaBallcount}">
+						<% lpbc.forEach((result)=>{%>
 							<tr>
-								<td>${lpbc.str1}</td>
-								<td>${lpbc.count1}</td>
-								<td>${lpbc.count2}</td>
-								<td>
-									<fmt:formatNumber value="${lpbc.ratio1}" pattern=".000" />
-								</td>
-								<td>${lpbc.count3}</td>
-								<td>${lpbc.count4}</td>
-								<td>${lpbc.count5}</td>
-								<td>${lpbc.count6}</td>
-								<td>${lpbc.count7}</td>
+								<td><%=result['볼카운트']%></td>
+								<td><%=result['타석']%></td>
+								<td><%=result['타수']%></td>
+								<% var temp = parseFloat(result['타율']).toFixed(3) %>
+								<td><%=temp || 0%></td>
+								<td><%=result['안타']%></td>
+								<td><%=result['사사구']%></td>
+								<td><%=result['삼진']%></td>
+								<td><%=result['땅볼 및 뜬공']%></td>
+								<td><%=result['상대방실책']%></td>
 							</tr>
-						</c:forEach>
+						<%})%>
+
 					</tbody>
 				</table>
 			</div>
@@ -416,25 +622,41 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="lphb" items="${listPaHowbase}" end="1">
+						<% lphb2o3.forEach((result)=>{%>
 							<tr>
-								<td>${lphb.str1}</td>
-								<td>${lphb.count1}</td>
-								<td>${lphb.count2}</td>
-								<td>
-									<fmt:formatNumber value="${lphb.ratio1}" pattern=".000" />
-								</td>
-								<td>${lphb.count3}</td>
-								<td>${lphb.count4}</td>
-								<td>${lphb.count5}</td>
-								<td>${lphb.count6}</td>
-								<td>${lphb.count7}</td>
-								<td>${lphb.count8}</td>
-								<td>${lphb.count9}</td>
-								<td>${lphb.count10}</td>
+								<td><%=result['득점권']%></td>
+								<td><%=result['타석']%></td>
+								<td><%=result['타수']%></td>
+								<% var temp = parseFloat(result['타율']).toFixed(3) %>
+								<td><%=temp??0%></td>
+								<td><%=result['단타']%></td>
+								<td><%=result['장타']%></td>
+								<td><%=result['사사구']%></td>
+								<td><%=result['삼진']%></td>
+								<td><%=result['땅볼 및 뜬공']%></td>
+								<td><%=result['병살 및 삼중살']%></td>
+								<td><%=result['상대방실책']%></td>
+								<td><%=result['타점']%></td>
 							</tr>
-						</c:forEach>
-					<tbody>
+						<%})%>
+						<% lphb0o1.forEach((result)=>{%>
+							<tr>
+								<td><%=result['비득점권']%></td>
+								<td><%=result['타석']%></td>
+								<td><%=result['타수']%></td>
+								<% var temp = parseFloat(result['타율']).toFixed(3) %>
+								<td><%=temp??0%></td>
+								<td><%=result['단타']%></td>
+								<td><%=result['장타']%></td>
+								<td><%=result['사사구']%></td>
+								<td><%=result['삼진']%></td>
+								<td><%=result['땅볼 및 뜬공']%></td>
+								<td><%=result['병살 및 삼중살']%></td>
+								<td><%=result['상대방실책']%></td>
+								<td><%=result['타점']%></td>
+							</tr>
+						<%})%>
+						<tbody>
 					<thead>
 						<tr>
 							<th>베이스</th>
@@ -452,189 +674,26 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="lphb" items="${listPaHowbase}" begin="2">
+						<% lphb.forEach((result)=>{%>
 							<tr>
-								<td>${lphb.str1}</td>
-								<td>${lphb.count1}</td>
-								<td>${lphb.count2}</td>
-								<td>
-									<fmt:formatNumber value="${lphb.ratio1}" pattern=".000" />
-								</td>
-								<td>${lphb.count3}</td>
-								<td>${lphb.count4}</td>
-								<td>${lphb.count5}</td>
-								<td>${lphb.count6}</td>
-								<td>${lphb.count7}</td>
-								<td>${lphb.count8}</td>
-								<td>${lphb.count9}</td>
-								<td>${lphb.count10}</td>
+								<td><%=result['베이스']%></td>
+								<td><%=result['타석']%></td>
+								<td><%=result['타수']%></td>
+								<% var temp = parseFloat(result['타율']).toFixed(3) %>
+								<td><%=temp??0%></td>
+								<td><%=result['단타']%></td>
+								<td><%=result['장타']%></td>
+								<td><%=result['사사구']%></td>
+								<td><%=result['삼진']%></td>
+								<td><%=result['땅볼 및 뜬공']%></td>
+								<td><%=result['병살 및 삼중살']%></td>
+								<td><%=result['상대방실책']%></td>
+								<td><%=result['타점']%></td>
 							</tr>
-						</c:forEach>
+						<%})%>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</div>
-
-	<script>
-		function test(x, y, z, g) {
-			var options = {
-				chart : {
-					// height: 280,
-					type : "radialBar",
-				},
-				labels : x,
-				series : y,
-				colors : [ "#0cada8" ],
-				plotOptions : {
-					radialBar : {
-					    startAngle: 0,
-					    endAngle: 720,
-						hollow : {
-							margin : 0,
-							size : "50%",
-							background: "#0000007c",
-						},
-						dataLabels : {
-							showOn : "always",
-							name : {
-								offsetY : -5,
-								show : true,
-								color : "#ffffff",
-								fontSize : "18px",
-								fontWeight : "bold"
-							},
-							value : {
-								offsetY : 3,
-								color : "#ffffff",
-								fontSize : "22px",
-								show : true,
-								fontWeight : "bold"
-							},
-						},
-					},
-				},
-				stroke : {
-					lineCap : "round",
-				},
-				fill : {
-					type : "gradient",
-					gradient : {
-						type : "diagonal1",
-						gradientToColors : g,
-						stops : [ 0, 100 ],
-					},
-				},
-			};
-			var chart = new ApexCharts(document.querySelector(z), options);
-			return chart;
-		};
-  		<c:forEach var="tt" begin="1" end="9">
-			var temp1 = ["기록없음"];
-			var temp2 = [ 0 ];
-			var temp3 = ["#00aeff"];
-	 		<c:forEach var="lpd" items="${listPaDirection}">
-				<c:choose>
-					<c:when test="${tt == lpd.count1}">
-						temp1 = [ "${lpd.str1}" ];
-						temp2 = [<fmt:formatNumber value="${lpd.ratio1}" pattern=".0"/>];
-						<c:if test="${lpd.ratio1>30 || lpd.ratio1<10}">
-							temp3 = ["${lpd.ratio1>30?'#ae00ff':'#ff8800'}"];
-						</c:if>	
-					</c:when>
-				</c:choose>
-			</c:forEach>
-			var pp = test( temp1, temp2, "#chart" + ${tt}, temp3);
-			pp.render()
-		</c:forEach>
-	
-/* 		var p1 = test([ "투수" ], [ 67 ], "#chart1");
-		var p2 = test([ "포수" ], [ 67 ], "#chart2");
-		var p3 = test([ "1루" ], [ 67 ], "#chart3");
-		var p4 = test([ "2루" ], [ 67 ], "#chart4");
-		var p5 = test([ "3루" ], [ 67 ], "#chart5");
-		var p6 = test([ "유격수" ], [ 67 ], "#chart6");
-		var p7 = test([ "좌익수" ], [ 67 ], "#chart7");
-		var p8 = test([ "중견수" ], [ 67 ], "#chart8");
-		var p9 = test([ "우익수" ], [ 67 ], "#chart9"); */
-		
-/* 		p1.render()
-		p2.render()
-		p3.render()
-		p4.render()
-		p5.render()
-		p6.render()
-		p7.render()
-		p8.render()
-		p9.render() */
-		function test2(x,y,z){
-		 var ooptions = {
-			  labels : x,
-	          series: y,
-	          chart: {
-	          type: 'donut',
-	        },
-			plotOptions:{
-				pie:{
-				donut:{
-					size : '70%',
-					labels:{
-					show:true,
-					name : {
-						offsetY : -15,
-						show : true,
-						color : "#ffffff",
-						fontSize : "60px",
-						fontWeight : "bold"
-					},
-					value : {
-						offsetY : 13,
-						color : "#ffffff",
-						fontSize : "45px",
-						show : true,
-						fontWeight : "bold",
-					},
-					total : {
-						label : '총합',
-						offsetY : -15,
-						color : "#ffffff",
-						fontSize : "45px",
-						show : true,
-						fontWeight : "bold",
-					},
-					}
-				}
-			}
-			},
-			legend:{
-				show : false
-			},
-			dataLabels:{
-				style: {
-				      fontSize: '20px',
-				      fontFamily: 'Helvetica, Arial, sans-serif',
-				      fontWeight: 'bold',
-				},          
-				  formatter(val, opts) {
-				    const name = opts.w.globals.labels[opts.seriesIndex]
-				    return name +" " + val.toFixed(1)+"%"
-		        }
-			}
-	        };
-		 	var chart = new ApexCharts(document.querySelector(z), ooptions);
-	        return chart
-		};
-
-		<c:forEach var="lpo" items="${listPaOut}">
-			var qq1 = test2( ["루킹삼진","스윙삼진","땅볼","뜬공","직선타"],[${lpo.count3},${lpo.count4}, ${lpo.count5}, ${lpo.count6}, ${lpo.count7}],"#ochart");
-	        qq1.render();
-		</c:forEach>
-		<c:forEach var="lptb" items="${listPaTobase}">
-			var qq2 = test2( ["안타","4구","사구"],[${lptb.count2}, ${lptb.count3}, ${lptb.count4}],"#obchart");
-	        qq2.render();
-		</c:forEach>
-
-		
-	</script>
-
 </main>

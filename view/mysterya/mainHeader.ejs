@@ -74,8 +74,8 @@
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <select class="form-select-sm" id="autoSizingSelect">
+                <form class="d-flex" action="/Mysterya/player/list" method="get">
+                    <select class="form-select-sm" id="autoSizingSelect" name="cat">
                         <option selected value="num">등번호</option>
                         <option value="name">이름</option>
                     </select>
@@ -84,6 +84,7 @@
                         type="search"
                         placeholder="Search"
                         aria-label="Search"
+                        name = input
                     />
                     <button class="btn btn-outline-success" type="submit">
                         Search
