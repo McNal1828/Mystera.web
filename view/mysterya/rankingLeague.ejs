@@ -1,0 +1,75 @@
+<main class="container-xxl" style="height: auto; min-height: 100%">
+    <div class="container">
+        <h1 class="pb-4 mb-4 mt-4 fw-bold fst-italic border-bottom"><%=lrl[0]['리그']%>(<%=lrl[0]['분류']%>) 랭킹</h1>
+        <div class="row row-cols-auto" id="contents">
+            <template>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </template>
+            <div class="col-md-11 ms-auto me-auto">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th class="name">이름</th>
+                            <th class="g">경기수</th>
+                            <th class="pa">타석</th>
+                            <th class="ab">타수</th>
+                            <th class="avg">타율</th>
+                            <th class="h">단타</th>
+                            <th class="lh">장타</th>
+                            <th class="so">삼진</th>
+                            <th class="bb">4구</th>
+                            <th class="hbp">사구</th>
+                            <th class="r">득점</th>
+                            <th class="rbi">타점</th>
+                            <th class="slg">장타율</th>
+                            <th class="obp">출루율</th>
+                            <th class="ops">OPS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% lrl.forEach(result=>{%>
+                        <tr>
+                            <td><%=result['name']%></td>
+                            <td><%=result['경기수']%></td>
+                            <td><%=result['타석']%></td>
+                            <td><%=result['타수']%></td>
+                            <%var temp = parseFloat(result['타율']).toFixed(3)%>
+                            <td><%=temp%></td>
+                            <td><%=result['단타']%></td>
+                            <td><%=result['장타']%></td>
+                            <td><%=result['삼진']%></td>
+                            <td><%=result['4구']%></td>
+                            <td><%=result['사구']%></td>
+                            <td><%=result['득점']%></td>
+                            <td><%=result['타점']%></td>
+                            <%var temp = parseFloat(result['장타율']).toFixed(3)%>
+                            <td><%=temp%></td>
+                            <%var temp = parseFloat(result['출루율']).toFixed(3)%>
+                            <td><%=temp%></td>
+                            <%var temp = parseFloat(result['OPS']).toFixed(3)%>
+                            <td><%=temp%></td>
+                        </tr>
+                        <%})%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="/Mysterya/js/rankingLeague.js"></script>
+</main>

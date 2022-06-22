@@ -2,8 +2,6 @@ const express = require("express");
 const doSqls = require("../middleware/mysterya/doSqls").doSqls;
 const router = express.Router();
 const ejs = require("ejs");
-
-
 const connect = require("../middleware/mysterya/dbconnection").connect;
 
 router.get("/", (req, res) => {
@@ -82,7 +80,6 @@ router.get("/player/:playerNumber", async (req, res) => {
     sqls.push(`select * from pa_direction where number = ${playerNumber}`);
     values.push([]);
     const results = await doSqls(sqls, values);
-    // console.log(results[2]);
     let main = "";
     ejs.renderFile(
         "view/mysterya/playerDetail.ejs",
@@ -106,23 +103,50 @@ router.get("/player/:playerNumber", async (req, res) => {
             main = str;
         }
     );
+    
+    res.render("mysterya/mainLayout.ejs", { headerMyNumber: cookies.mynumber, main: (main || '<h2>기록이없습니다.</h2>') });
+});
+
+router.get("/ranking/list", async (req, res) => {
+    const cookies = req.cookies;
+    let sqls = [];
+    let values = [];
+    sqls.push('select * from ra_leaguelist');
+    values.push([]);
+    sqls.push('select * from ra_yearlist');
+    values.push([]);
+    const results = await doSqls(sqls, values);
+    let main = "";
+    ejs.renderFile("view/mysterya/rankingList.ejs",{
+        ll : results[0],
+        ly : results[1],
+    } ,(err, str) => {
+        main = str;
+    });
     res.render("mysterya/mainLayout.ejs", { headerMyNumber: cookies.mynumber, main: main });
 });
 
-router.get("/ranking/league/:leagudIndex", (req, res) => {});
-
-router.get("/ranking/year/:year", async (req, res) => {
+router.get("/ranking/league/:leagueIndex", async (req, res) => {
+    const cookies = req.cookies;
+    const leagueIndex=req.params.leagueIndex;
     let sqls = [];
     let values = [];
-    sqls.push(`select * from ra_yearlist`);
-    values.push([]);
-    sqls.push(`select * from numposition`);
-    values.push([]);
-    sqls.push(`select * from player`);
+    sqls.push('select * from ra_league where `리그번호` = '+`${leagueIndex}`);
     values.push([]);
     const results = await doSqls(sqls, values);
-    console.log(results[0][0][0].name);
-    res.end("ss");
+    // console.log(results[0]);
+    let main = "";
+    ejs.renderFile("view/mysterya/rankingLeague.ejs",{
+        lrl : results[0],
+    } ,(err, str) => {
+        main = str;
+    });
+    res.render("mysterya/mainLayout.ejs", { headerMyNumber: cookies.mynumber, main: main });
+});
+
+router.get("/ranking/year/:year", async (req, res) => {
+
+    res.end("구현중");
 });
 
 module.exports = router;

@@ -30,6 +30,7 @@
     "helmet-csp": "^3.4.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
-    "sanitize-html": "^2.7.0"
+    "sanitize-html": "^2.7.0",
+    "store": "^2.0.12"
   }
 }
