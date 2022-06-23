@@ -1,6 +1,6 @@
 <main class="container-xxl" style="height: auto; min-height: 100%">
     <div class="container">
-        <h1 class="pb-4 mb-4 mt-4 fw-bold fst-italic border-bottom"><%=lrl[0]['리그']%>(<%=lrl[0]['분류']%>) 랭킹</h1>
+        <h1 class="pb-4 mb-4 mt-4 fw-bold fst-italic border-bottom"><%=lry[0]['년도']%> 랭킹</h1>
         <div class="row justify-content-around ms-auto me-auto">
             <div id="h2nd" class="card mb-3 col-3" style="width: auto">
                 <div class="card-header">
@@ -122,7 +122,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% lrl.forEach(result=>{%>
+                        <% lry.forEach(result=>{%>
                         <tr>
                             <td><%=result['name']%></td>
                             <td><%=result['경기수']%></td>

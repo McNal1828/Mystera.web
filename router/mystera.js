@@ -145,8 +145,39 @@ router.get("/ranking/league/:leagueIndex", async (req, res) => {
 });
 
 router.get("/ranking/year/:year", async (req, res) => {
-
-    res.end("구현중");
+    const cookies = req.cookies;
+    const year=req.params.year;
+    let sqls = [];
+    let values = [];
+    sqls.push('select * from ra_year where `년도` = '+`${year}`);
+    values.push([]);
+    const results = await doSqls(sqls, values);
+    // console.log(results[0]);
+    let main = "";
+    ejs.renderFile("view/mysterya/rankingYear.ejs",{
+        lry : results[0],
+    } ,(err, str) => {
+        main = str;
+    });
+    res.render("mysterya/mainLayout.ejs", { headerMyNumber: cookies.mynumber, main: main });
 });
 
+router.get("/game/list", async (req, res) => {
+    const cookies = req.cookies;
+    let sqls = [];
+    let values = [];
+    var ss ='SELECT `l`.`name`, `l`.`division`, `bd`.`year`, `bd`.`month`, `bd`.`day`, `bd`.`ball_count` FROM ((`player` `p` join `batting_detail` `bd` on(`p`.`number` = `bd`.`player_number`)) join `league` `l` on(`bd`.`league_index` = `l`.`league_index`)) group by `l`.`league_index`,`bd`.`day` order by `year`,`month`,`day`';
+    sqls.push(ss);
+    values.push([]);
+    const results = await doSqls(sqls, values);
+    // console.log(results[0]);
+    let main = "";
+    ejs.renderFile("view/mysterya/gameList.ejs",{
+        lg : results[0],
+    } ,(err, str) => {
+        console.log(err);
+        main = str;
+    });
+    res.render("mysterya/mainLayout.ejs", { headerMyNumber: cookies.mynumber, main: main });
+});
 module.exports = router;

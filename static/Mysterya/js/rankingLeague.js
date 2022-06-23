@@ -2,7 +2,12 @@ window.addEventListener("load", async () => {
     var template = document.querySelector("template");
     var table = document.querySelector("table");
 
+    var first = document.querySelector("#h1st");
+    var second = document.querySelector("#h2nd");
+    var third = document.querySelector("#h3rd");
+
     var contents =[];
+    var needToFixed=['avg','slg','obp','ops'];
 
     var name = table.querySelector(".name");
     var g = table.querySelector(".g");
@@ -41,6 +46,8 @@ window.addEventListener("load", async () => {
         tempObj.slg =parseFloat( tds[12].innerHTML);
         tempObj.obp =parseFloat( tds[13].innerHTML);
         tempObj.ops =parseFloat( tds[14].innerHTML);
+        tempObj.number = parseInt(tds[15].innerHTML);
+        tempObj.support = tds[16].innerHTML;
         contents.push(tempObj);
     }
 
@@ -114,7 +121,31 @@ window.addEventListener("load", async () => {
         slg.style.backgroundColor = '';
         obp.style.backgroundColor = '';
         ops.style.backgroundColor = '';
+    }
 
+    function headRankingChange(title, part){
+        first.querySelector('div>h2').innerHTML=`${title} 1위`;
+        second.querySelector('div>h2').innerHTML=`${title} 2위`;
+        third.querySelector('div>h2').innerHTML=`${title} 3위`;
+        if(needToFixed.includes(part)){
+            console.log(part);
+            first.querySelector('.card-title').innerHTML=contents[0][part].toFixed(3);
+            second.querySelector('.card-title').innerHTML=String(contents[1][part].toFixed(3));
+            third.querySelector('.card-title').innerHTML=contents[2][part].toFixed(3);
+        }else{
+            first.querySelector('.card-title').innerHTML=contents[0][part];
+            second.querySelector('.card-title').innerHTML=contents[1][part];
+            third.querySelector('.card-title').innerHTML=contents[2][part];
+        }
+        first.querySelector('img').src=`/Mysterya/image/profile/${contents[0].number}.jpg`;
+        first.querySelector('.card-body>img').src=`/Mysterya/image/support/${contents[0].support}.png`;
+        first.querySelector('.card-body>a').href=`/Mysterya/player/${contents[0].number}`;
+        second.querySelector('img').src=`/Mysterya/image/profile/${contents[1].number}.jpg`;
+        second.querySelector('.card-body>img').src=`/Mysterya/image/support/${contents[1].support}.png`;
+        second.querySelector('.card-body>a').href=`/Mysterya/player/${contents[1].number}`;
+        third.querySelector('img').src=`/Mysterya/image/profile/${contents[2].number}.jpg`;
+        third.querySelector('.card-body>img').src=`/Mysterya/image/support/${contents[2].support}.png`;
+        third.querySelector('.card-body>a').href=`/Mysterya/player/${contents[2].number}`;
     }
 
     name.onclick=function(){
@@ -125,9 +156,9 @@ window.addEventListener("load", async () => {
             nameSorted = true;
             contents.sort(function(a,b){
                 if(a.name < b.name){
-                    return -1;
-                }else if(a.name > b.name){
                     return 1;
+                }else if(a.name > b.name){
+                    return -1;
                 }else{
                     return 0;
                 }
@@ -145,13 +176,14 @@ window.addEventListener("load", async () => {
             gSorted = true;
             contents.sort(function(a,b){
                 if(a.g < b.g){
-                    return -1;
-                }else if(a.g > b.g){
                     return 1;
+                }else if(a.g > b.g){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('게임수','g');
         }else{
             contents.reverse();
         }
@@ -165,13 +197,14 @@ window.addEventListener("load", async () => {
             paSorted = true;
             contents.sort(function(a,b){
                 if(a.pa < b.pa){
-                    return -1;
-                }else if(a.pa > b.pa){
                     return 1;
+                }else if(a.pa > b.pa){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('타석','pa');
         }else{
             contents.reverse();
         }
@@ -185,13 +218,14 @@ window.addEventListener("load", async () => {
             abSorted = true;
             contents.sort(function(a,b){
                 if(a.ab < b.ab){
-                    return -1;
-                }else if(a.ab > b.ab){
                     return 1;
+                }else if(a.ab > b.ab){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('타수','ab');
         }else{
             contents.reverse();
         }
@@ -205,13 +239,14 @@ window.addEventListener("load", async () => {
             avgSorted = true;
             contents.sort(function(a,b){
                 if(a.avg < b.avg){
-                    return -1;
-                }else if(a.avg > b.avg){
                     return 1;
+                }else if(a.avg > b.avg){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('타율','avg');
         }else{
             contents.reverse();
         }
@@ -225,13 +260,14 @@ window.addEventListener("load", async () => {
             hSorted = true;
             contents.sort(function(a,b){
                 if(a.h < b.h){
-                    return -1;
-                }else if(a.h > b.h){
                     return 1;
+                }else if(a.h > b.h){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('단타','h');
         }else{
             contents.reverse();
         }
@@ -245,13 +281,14 @@ window.addEventListener("load", async () => {
             lhSorted = true;
             contents.sort(function(a,b){
                 if(a.lh < b.lh){
-                    return -1;
-                }else if(a.lh > b.lh){
                     return 1;
+                }else if(a.lh > b.lh){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('장타','lh');
         }else{
             contents.reverse();
         }
@@ -265,13 +302,14 @@ window.addEventListener("load", async () => {
             soSorted = true;
             contents.sort(function(a,b){
                 if(a.so < b.so){
-                    return -1;
-                }else if(a.so > b.so){
                     return 1;
+                }else if(a.so > b.so){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('삼진','so');
         }else{
             contents.reverse();
         }
@@ -285,13 +323,14 @@ window.addEventListener("load", async () => {
             bbSorted = true;
             contents.sort(function(a,b){
                 if(a.bb < b.bb){
-                    return -1;
-                }else if(a.bb > b.bb){
                     return 1;
+                }else if(a.bb > b.bb){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('볼넷','bb');
         }else{
             contents.reverse();
         }
@@ -305,13 +344,14 @@ window.addEventListener("load", async () => {
             hbpSorted = true;
             contents.sort(function(a,b){
                 if(a.hbp < b.hbp){
-                    return -1;
-                }else if(a.hbp > b.hbp){
                     return 1;
+                }else if(a.hbp > b.hbp){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('사구','hbp');
         }else{
             contents.reverse();
         }
@@ -325,13 +365,14 @@ window.addEventListener("load", async () => {
             rSorted = true;
             contents.sort(function(a,b){
                 if(a.r < b.r){
-                    return -1;
-                }else if(a.r > b.r){
                     return 1;
+                }else if(a.r > b.r){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('득점','r');
         }else{
             contents.reverse();
         }
@@ -345,13 +386,14 @@ window.addEventListener("load", async () => {
             rbiSorted = true;
             contents.sort(function(a,b){
                 if(a.rbi < b.rbi){
-                    return -1;
-                }else if(a.rbi > b.rbi){
                     return 1;
+                }else if(a.rbi > b.rbi){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('타점','rbi');
         }else{
             contents.reverse();
         }
@@ -365,13 +407,14 @@ window.addEventListener("load", async () => {
             slgSorted = true;
             contents.sort(function(a,b){
                 if(a.slg < b.slg){
-                    return -1;
-                }else if(a.slg > b.slg){
                     return 1;
+                }else if(a.slg > b.slg){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('장타율','slg');
         }else{
             contents.reverse();
         }
@@ -385,17 +428,19 @@ window.addEventListener("load", async () => {
             obpSorted = true;
             contents.sort(function(a,b){
                 if(a.obp < b.obp){
-                    return -1;
-                }else if(a.obp > b.obp){
                     return 1;
+                }else if(a.obp > b.obp){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('출루율','obp');
         }else{
             contents.reverse();
         }
         bindData();
+        
     };
     ops.onclick=function(){
         tbodyNode.innerHTML="";
@@ -405,13 +450,14 @@ window.addEventListener("load", async () => {
             opsSorted = true;
             contents.sort(function(a,b){
                 if(a.ops < b.ops){
-                    return -1;
-                }else if(a.ops > b.ops){
                     return 1;
+                }else if(a.ops > b.ops){
+                    return -1;
                 }else{
                     return 0;
                 }
             });
+            headRankingChange('OPS','ops');
         }else{
             contents.reverse();
         }
